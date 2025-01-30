@@ -82,18 +82,12 @@ if prompt := st.chat_input("What's up?"):
         message_placeholder = st.empty()
         full_response = ""
         history = get_history()
-        body=json.dumps(
-            {
-                "anthropic_version": "bedrock-2023-05-31",
-                "max_tokens": 512,
-                "messages": [
-                    {
-                        "role": "user",
-                        "content": [{"type": "text", "text": prompt}],
-                    }
-                ],
-            }
-        )
+        body = json.dumps({
+            "prompt": f"{history}\n\nAssistant:",
+            "max_tokens_to_sample": 300,
+            "temperature": 0.1,
+            "top_p": 0.9,
+        })
         response = client.invoke_model_with_response_stream(
             body=body,
             modelId=modelId,
