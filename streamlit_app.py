@@ -67,9 +67,9 @@ def parse_stream(stream):
             message = json.loads(chunk.get("bytes").decode())
             if message['type'] == "content_block_delta":
                 full_response += message['delta']['text']
-                yield message
+                yield message['delta']['text'] or ""
             elif message['type'] == "message_stop":
-                yield ''
+                yield "\n"
     st.session_state.messages.append(
         {"role": "Assistant", "content": full_response}
     )
