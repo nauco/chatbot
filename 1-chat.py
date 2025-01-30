@@ -64,11 +64,10 @@ def parse_stream(stream):
     for event in stream:
         chunk = event.get('chunk')
         if chunk:
-            message = json.loads(chunk.get("bytes").decode())
-            if message['type'] == "content_block_delta":
-                yield message['delta']['text'] or ""
-            elif message['type'] == "message_stop":
-                return "\n"
+            message = json.loads(chunk.get('bytes').decode())[
+                'completion'] or ""
+            full_response += message
+            yield message
     st.session_state.messages.append(
         {"role": "Assistant", "content": full_response}
     )
