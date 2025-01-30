@@ -66,7 +66,7 @@ def parse_stream(stream):
         if chunk:
             message = json.loads(chunk.get("bytes").decode())
             if message['type'] == "content_block_delta":
-                full_response += message
+                full_response += message['delta']['text']
                 yield message
             elif message['type'] == "message_stop":
                 yield ''
