@@ -27,7 +27,7 @@ def get_welcome_message() -> str:
 
 @st.cache_resource
 def get_bedrock_client():
-    return boto3.client(service_name='bedrock-runtime')
+    return boto3.client(service_name='bedrock-runtime', region_name="ap-northeast-2")
 
 
 def get_history() -> str:
@@ -38,7 +38,7 @@ def get_history() -> str:
 
 
 client = get_bedrock_client()
-modelId = 'anthropic.claude-v2:1'
+modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0'
 accept = 'application/json'
 contentType = 'application/json'
 
