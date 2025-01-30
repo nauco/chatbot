@@ -65,7 +65,12 @@ def parse_stream(stream):
         chunk = event.get('chunk')
         if chunk:
             message = json.loads(chunk.get('bytes').decode()) or ""
-            print("message: " + message)
+            
+            for x in message:
+                print (x)
+                for y in message[x]:
+                    print (y,':',message[x][y])
+
             full_response += message
             yield message
     st.session_state.messages.append(
