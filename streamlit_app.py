@@ -38,7 +38,7 @@ def get_history() -> str:
 
 
 client = get_bedrock_client()
-modelId = 'anthropic.claude-3-haiku-20240307-v1:0'
+modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0'
 accept = 'application/json'
 contentType = 'application/json'
 
