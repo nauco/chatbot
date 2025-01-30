@@ -65,7 +65,7 @@ def parse_stream(stream):
         chunk = event.get('chunk')
         if chunk:
             message = json.loads(chunk.get('bytes').decode())[
-                'completion'] or ""
+                'completed'] or ""
             full_response += message
             yield message
     st.session_state.messages.append(
