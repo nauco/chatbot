@@ -27,7 +27,7 @@ def get_welcome_message() -> str:
 
 @st.cache_resource
 def get_bedrock_client():
-    return boto3.client(service_name='bedrock-runtime', region_name='ap-northeast-2')
+    return boto3.client(service_name='bedrock-runtime')
 
 
 def get_history() -> str:
@@ -38,7 +38,7 @@ def get_history() -> str:
 
 
 client = get_bedrock_client()
-modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0'
+modelId = 'anthropic.claude-v2:1'
 accept = 'application/json'
 contentType = 'application/json'
 
@@ -64,14 +64,10 @@ def parse_stream(stream):
     for event in stream:
         chunk = event.get('chunk')
         if chunk:
-            message = json.loads(chunk.get('bytes').decode())
-            #message = json.loads(chunk.get('bytes').decode())['completion'] or ""
-            if message['type'] == "content_block_delta":
-                full_response += message['delta']['text']
-                yield message['delta']['text'] or ""
-            elif message['type'] == "message_stop":
-                return "\n"
-    
+            message = json.loads(chunk.get('bytes').decode())[
+                'completion'] or ""
+            full_response += message
+            yield message
     st.session_state.messages.append(
         {"role": "Assistant", "content": full_response}
     )
